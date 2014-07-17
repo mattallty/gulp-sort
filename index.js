@@ -1,44 +1,33 @@
-var through = require('through2');
-var gutil = require('gulp-util');
-var PluginError = gutil.PluginError;
+var sort = require('./sort')
+  , through = require('through')
 
-// Consts
-const PLUGIN_NAME = 'gulp-sort';
+function gulpSort(sortMethod, opts) {
 
+  var files = [],
+    opts = opts || {},
+    sortMethod = sortMethod || 'SORT_STRING'
 
-// Plugin level function(dealing with files)
-function gulpSort(sortMethod) {
+  var onFile = function onFile(file) {
+    files.push(file)
+  };
 
-   // Creating a stream through which each file will pass
-   var stream = through.obj(function(file, enc, callback) {
-      if (file.isNull()) {
-         // Do nothing if no contents
-         gutil.log('dealing with null');
-      }
-      if (file.isBuffer()) {
-         gutil.log('dealing with a buffer');
-         gutil.log(file.path);
-      }
+  var onEnd = function onEnd() {
+    var that = this
+    sort(files, sortMethod, !!opts.fullpath).forEach(function (file) {
+      that.emit('data', file)
+    })
+    that.emit('end')
+  };
 
-      if (file.isStream()) {
-         gutil.log('dealing with a stream');
-         gutil.log(file.path);
-      }
+  // Creating a stream through which each file will pass
+ return through(onFile, onEnd)
 
-      this.push(file);
-      callback();
+}
 
-   });
-
-   // returning the file stream
-   return stream;
-};
-
-gulpSort.SORT_STRING = 'SORT_STRING';
-gulpSort.SORT_NUMERIC = 'SORT_NUMERIC';
-gulpSort.SORT_REGULAR = 'SORT_REGULAR';
-
+gulpSort.SORT_STRING = 'SORT_STRING'
+gulpSort.SORT_NUMERIC = 'SORT_NUMERIC'
+gulpSort.SORT_REGULAR = 'SORT_REGULAR'
 
 
 // Exporting the plugin main function
-module.exports = gulpSort;
+module.exports = gulpSort
