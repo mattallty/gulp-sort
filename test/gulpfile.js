@@ -1,5 +1,5 @@
 var gulp = require('gulp')
-  , gulpSort = require('./index.js')
+  , gulpSort = require('./../index.js')
   , size = require('gulp-size')
   , debug = require('gulp-debug')
 
