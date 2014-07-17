@@ -1,3 +1,5 @@
+var gutil = require('gulp-util');
+
 module.exports = function strcmp(str1, str2) {
   //  discuss at: http://phpjs.org/functions/strcmp/
   // original by: Waldo Malqui Silva
@@ -10,5 +12,6 @@ module.exports = function strcmp(str1, str2) {
   //   returns 2: -1
   str1 = str1.replace(/[^a-z0-9.]+/g, '')
   str2 = str2.replace(/[^a-z0-9.]+/g, '')
+  gutil.log("Comparing", str1, "with", str2);
   return ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1));
 }
