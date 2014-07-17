@@ -1,0 +1,44 @@
+{
+  "name": "gulp-sort",
+  "version": "1.0.0",
+  "description": "A gulp plugin to sort files in a stream",
+  "main": "./index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha && node_modules/.bin/jshint ./index.js && node_modules/.bin/jshint ./test/.",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mattallty/gulp-sort.git"
+  },
+  "keywords": [
+    "gulp",
+    "gulpplugin",
+    "sort",
+    "order",
+    "pipe",
+    "stream"
+  ],
+  "author": "Matthias Etienne <matt@allty.com>",
+  "license": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/mattallty/gulp-sort/raw/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/mattallty/gulp-sort/issues"
+  },
+  "homepage": "https://github.com/mattallty/gulp-sort",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-debug": "^0.3.0",
+    "jshint": "^2.5.2",
+    "mocha": "^1.20.1",
+    "should": "^4.0.4"
+  },
+  "dependencies": {
+    "gulp-util": "^2.2.20",
+    "through2": "^0.5.1"
+  }
+}
