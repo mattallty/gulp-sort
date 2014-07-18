@@ -4,7 +4,7 @@ var gulp = require('gulp')
 
 gulp.task('default', function () {
   gulp.src('./*')
-    .pipe(gulpSort(gulpSort.SORT_STRING))
+    .pipe(gulpSort())
     .pipe(size({showFiles:true}))
 });
 

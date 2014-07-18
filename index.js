@@ -1,33 +1,40 @@
-var sort = require('./sort')
-  , through = require('through')
+var through = require('through')
+var path = require('path')
+require("natural-compare-lite")
 
-function gulpSort(sortMethod, opts) {
+function gulpSort(opts, sortMethod) {
 
   var files = [],
-    opts = opts || {},
-    sortMethod = sortMethod || 'SORT_STRING'
+    sortMethod = sortMethod ||
+      /**
+       * naturalCmp function taken from Underscore.string
+       */
+      function (p1, p2) {
+        var str1 = path.basename(p1.path).replace(/[-_]/g, '')
+        var str2 = path.basename(p2.path).replace(/[-_]/g, '')
+        return String.naturalCompare(str1, str2)
+      }
+
 
   var onFile = function onFile(file) {
     files.push(file)
-  };
+  }
 
   var onEnd = function onEnd() {
     var that = this
-    sort(files, sortMethod, !!opts.fullpath).forEach(function (file) {
+
+    //localeCompare
+
+    files.sort(sortMethod).forEach(function (file) {
       that.emit('data', file)
     })
     that.emit('end')
-  };
+  }
 
   // Creating a stream through which each file will pass
- return through(onFile, onEnd)
+  return through(onFile, onEnd)
 
 }
-
-gulpSort.SORT_STRING = 'SORT_STRING'
-gulpSort.SORT_NUMERIC = 'SORT_NUMERIC'
-gulpSort.SORT_REGULAR = 'SORT_REGULAR'
-
 
 // Exporting the plugin main function
 module.exports = gulpSort
